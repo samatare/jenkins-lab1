@@ -3,15 +3,15 @@ pipeline {
 
     stages {
 
-        stage('Stage 1 - Hello') {
+        stage('Stage 1 - Hello Script') {
             steps {
-                echo 'Hello from Stage 1!'
+                sh 'chmod +x scripts/stage1.sh && ./scripts/stage1.sh'
             }
         }
 
-        stage('Stage 2 - Hello Again') {
+        stage('Stage 2 - Hello Script') {
             steps {
-                echo 'Hello from Stage 2!'
+                sh 'chmod +x scripts/stage2.sh && ./scripts/stage2.sh'
             }
         }
 
