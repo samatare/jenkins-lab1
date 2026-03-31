@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+environment {
+    IMAGE = "samatare/jenkins-lab-nit-khadija:yasmin"
+}
     stages {
 
         stage('Build') {
@@ -29,9 +31,18 @@ pipeline {
         }
 
         stage('deplouy') {
-           
+        
             steps {
-               sh 'docker run -d -p 5000:5000  --name flask-container jenkins-lab-nit-khadija:yasmin'
+                sh '''
+                docker stop flask-container || true
+                docker rm flask-container || true
+
+                docker run -d \
+                  -p 5000:5000 \
+                  --name flask-container \
+                  $IMAGE
+                '''
+            }
 
                 
             }
