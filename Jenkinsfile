@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t samatare/jenkins-lab-nit-khadija:yasmin .'
+              sh 'docker build -t samatare/jenkins-lab-nit-khadija:yasmin .'
             }
         }
         stage('login') {
