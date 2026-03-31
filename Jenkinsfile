@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-     parameters {
+    parameters {
         choice(
             name: 'ENVIRONMENT',
             choices: ['dev', 'staging', 'production'],
@@ -26,5 +26,24 @@ pipeline {
             }
         }
 
+        stage('Deploy to Staging') {
+            when {
+                expression { params.ENVIRONMENT == 'staging' }
+            }
+            steps {
+                echo "Deploying to STAGING environment"
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                expression { params.ENVIRONMENT == 'production' }
+            }
+            steps {
+                echo "Deploying to PRODUCTION environment"
+
+                
+            }
+        }
     }
 }
