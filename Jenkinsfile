@@ -1,17 +1,28 @@
 pipeline {
     agent any
 
+     parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['dev', 'staging', 'production'],
+            description: 'Select deployment environment'
+        )
+    }
+
     stages {
 
-        stage('Stage 1 - Hello Script') {
+        stage('Build') {
             steps {
-                sh 'chmod +x scripts/stage1.sh && ./scripts/stage1.sh'
+                echo "Building application..."
             }
         }
 
-        stage('Stage 2 - Hello Script') {
+        stage('Deploy to Dev') {
+            when {
+                expression { params.ENVIRONMENT == 'dev' }
+            }
             steps {
-                sh 'chmod +x scripts/stage2.sh && ./scripts/stage2.sh'
+                echo "Deploying to DEV environment"
             }
         }
 
