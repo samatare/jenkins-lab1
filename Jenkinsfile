@@ -4,13 +4,7 @@ environment {
     IMAGE = "samatare/jenkins-lab-nit-khadija:yasmin"
 }
     stages {
- stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/samatare/jenkins-lab1.git',
-                  
-            }
-        }
+
 
         stage('Build') {
             steps {
