@@ -1,46 +1,37 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['dev', 'staging', 'production'],
-            description: 'Select deployment environment'
-        )
-    }
-
     stages {
 
         stage('Build') {
             steps {
-                echo "Building application..."
+               sh 'docker build -t samatare/jenkins-lab-nit-khadija:yasmin .'
             }
         }
 
-        stage('Deploy to Dev') {
-            when {
-                expression { params.ENVIRONMENT == 'dev' }
-            }
+        stage('login') {
             steps {
-                echo "Deploying to DEV environment"
+                   withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
             }
         }
 
-        stage('Deploy to Staging') {
-            when {
-                expression { params.ENVIRONMENT == 'staging' }
-            }
+        stage('push') {
+           
             steps {
-                echo "Deploying to STAGING environment"
+                sh 'docker push samatare/jenkins-lab-nit-khadija:yasmin'
             }
         }
 
-        stage('Deploy to Production') {
-            when {
-                expression { params.ENVIRONMENT == 'production' }
-            }
+        stage('deplouy') {
+           
             steps {
-                echo "Deploying to PRODUCTION environment"
+               sh 'docker run -d -p 5000:5000  --name flask-container jenkins-lab-nit-khadija:yasmin'
 
                 
             }
